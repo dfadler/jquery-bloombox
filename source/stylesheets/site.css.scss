@@ -1,0 +1,145 @@
+@import "compass";
+
+$link-color:         #0388a6;
+$link-hover-color:   #009ce0;
+$link-focus-color:   false;
+$link-active-color:  false;
+$link-visited-color: false;
+
+$font-color:  #2a2a2a;
+$font-family: sans-serif;
+$base-font-size:   12px;
+$base-line-height: 18px;
+
+$total-cols: 12;
+$col-width: 4em;
+$gutter-width: 1em;
+$side-gutter-width: $gutter-width;
+
+@include global-reset;
+
+body {
+  font-family: $font-family;
+  color: $font-color; 
+}
+
+a {
+  @include link-colors($link-color, $link-hover-color, $link-focus-color, $link-active-color, $link-visited-color);
+}
+
+#main {
+  padding: 50px;
+	
+}
+
+.box {
+//	background-color:red;
+	height: 300px;
+	width: 500px;
+	margin: auto;
+	margin-top: -150px;
+	margin-left: -250px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+
+	.no-js &:hover {
+		
+		.left {
+			width: 50%;
+			height: 100%;
+			margin-left: -25%;
+			margin-top: -50%;
+			
+			p {
+				display:block;
+			}
+		}
+		
+		.right {
+			width: 50%;
+			height: 100%;
+			margin-right: -25%;
+			margin-top: -50%;
+			
+			img {
+				display:block;
+			}
+		}
+		
+	}
+	.right {
+		z-index:2;
+	}
+	.rightClone {
+		z-index:1;
+	}
+	.right, .rightClone {
+		position: absolute;
+		top: 50%;
+		right: 25%;
+		background-color: black;
+
+	}
+	
+	.js & .right {
+		top:0;
+		right:0;
+		height:100%;
+		width: 50%;
+		background:none;
+	}
+	
+	.left, .right {
+		z-index:2;
+	}
+	
+	.leftClone, .rightClone {
+		z-index:1;
+	}
+	
+	.right, .rightClone {
+		position: absolute;
+		top: 50%;
+		right: 25%;
+		background-color: black;
+		
+		.no-js & img {
+			display:none;
+		}
+		
+		.js & img {
+			@include opacity(0);
+		}
+	}
+	
+	.left, .leftClone {
+		position: absolute;
+		top: 50%;
+		left: 25%;
+		background-color: black;
+		
+		p {
+			color: #eee;
+			padding:10px;
+			font-size:14px;
+			line-height:1.7em;
+		}
+		
+		.no-js & p {
+			display:none;
+		}	
+		
+		.js & p {
+			@include opacity(0);
+		}
+	}
+
+	.js & .left {
+		top:0;
+		left:0;
+		height:100%;
+		width: 50%;
+		background:none;
+	}
+}
