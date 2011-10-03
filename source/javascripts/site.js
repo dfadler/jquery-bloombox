@@ -2,24 +2,155 @@ $(function(){
 	
 	'use strict';
 
-	// Functions
+	// Object Functions
 
 	function BloomBox(obj) {
 		this.obj = obj;
 	}
 	
 	// Variables
-	
-	// var $this = this,
-	var bloomBox = new BloomBox($('.box')),
-		box = bloomBox.obj;
 
+	var $this = new BloomBox($('.box')),
+		box = $this.obj,
+		boxHeight = box.height(),
+		boxWidth = box.width();
+		
+	// Functions 
+
+	function bloomIn() {
+		$('.leftClone', box)
+			.animate({
+				'width': boxWidth / 2,
+				'height': boxHeight,
+				'marginLeft': -(boxWidth / 4),
+				'marginTop': -(boxHeight / 2)
+			}, 100, 'easeOutBack', function () {
+				if (box.hasClass('hovering')) {
+					$('.left')
+						.animate({
+							'opacity': 1
+						}, 50);	
+				} else {
+					$('.left')
+						.animate({
+							'opacity': 0
+						}, 50);
+				}
+			});
+			
+			$('.rightClone', box)
+				.animate({
+					'width': boxWidth / 2,
+					'height': boxHeight,
+					'marginRight': -(boxWidth / 4),
+					'marginTop': -(boxHeight / 2)
+				}, 200, 'easeOutBack', function () {
+					if (box.hasClass('hovering')) {
+						$('.right')
+							.animate({
+								'opacity': 1
+							}, 100);	
+					} else {
+						$('.right')
+							.animate({
+								'opacity': 0
+							}, 100);
+					}
+				});
+	}
+	
+	function bloomOut() {
+		$('.left')
+			.animate({
+				'opacity': 0
+			}, 100, function () {
+				if (box.hasClass('hovering')) {
+					$('.leftClone', box)
+						.animate({
+							'width': boxWidth / 2,
+							'height': boxHeight,
+							'marginLeft': -(boxWidth / 4),
+							'marginTop': -(boxHeight / 2)
+						}, 200, 'easeOutBack');
+				} else {
+					$('.leftClone', box)
+						.animate({
+							'width': '0', 
+							'height': '0',
+							'marginLeft': '0',
+							'marginTop': '0'
+						}, 200, 'easeInBack');
+				}
+			});
+			
+			$('.right')
+				.animate({
+					'opacity': 0
+				}, 100, function () {
+					if (box.hasClass('hovering')) {
+						$('.rightClone', box)
+							.animate({
+								'width': boxWidth / 2,
+								'height': boxHeight,
+								'marginRight': -(boxWidth / 4),
+								'marginTop': -(boxHeight / 2)
+							}, 100, 'easeOutBack');
+					} else {
+						$('.rightClone', box)
+							.animate({
+								'width': '0', 
+								'height': '0',
+								'marginRight': '0',
+								'marginTop': '0'
+							}, 100, 'easeInBack');
+					}
+				});
+	}
+	
+	function bloom(event) {
+		
+		switch (event) {
+		case 'mouseenter':
+			box
+				.addClass('hovering');
+			// console.log(event);
+			break;
+		case 'mouseleave':
+			box
+				.removeClass('hovering');
+			// console.log(event);
+			break;
+		case 'click':
+			
+			break;
+		default:
+			// console.log('default');
+			break;
+				
+		}
+		
+		if (box.hasClass('hovering')) {
+			bloomIn();
+		} else {
+			bloomOut();
+		}
+		
+	}
+	
+	// Setup
+	
 	$('.left', box)
 		.clone(false)
 		.appendTo(box)
 		.removeAttr('class')
 		.addClass('leftClone')
-		.find('p')
+		.css({
+			'width': '0', 
+			'height': '0',
+			'marginLeft': '0',
+			'marginTop': '0'
+		})
+		.children()
 		.remove();
 
 	$('.right', box)
@@ -27,135 +158,25 @@ $(function(){
 		.appendTo(box)
 		.removeAttr('class')
 		.addClass('rightClone')
-		.find('img')
+		.css({
+			'width': '0', 
+			'height': '0',
+			'marginRight': '0',
+			'marginTop': '0'
+		})
+		.children()
 		.remove();
 	
-	$('.left p, .right img')
+	$('.left, .right')
 		.css({
 			'opacity': 0
 		});
+
+
+	// Events
 	
-		function bloomIn(event) {
-			$('.leftClone', box)
-				.animate({
-					'width': '50%',
-					'height': '100%',
-					'marginLeft': '-25%',
-					'marginTop': '-50%'
-				}, 100, 'easeOutBack', function () {
-					if (box.hasClass('hovering')) {
-						$('.left p')
-							.animate({
-								'opacity': 1
-							}, 50);	
-					} else {
-						$('.left p')
-							.animate({
-								'opacity': 0
-							}, 50);
-					}
-				});
-				
-				$('.rightClone', box)
-					.animate({
-						'width': '50%',
-						'height': '100%',
-						'marginRight': '-25%',
-						'marginTop': '-50%'
-					}, 200, 'easeOutBack', function () {
-						if (box.hasClass('hovering')) {
-							$('.right img')
-								.animate({
-									'opacity': 1
-								}, 100);	
-						} else {
-							$('.right img')
-								.animate({
-									'opacity': 0
-								}, 100);
-						}
-					});
-		}
-		
-		function bloomOut(event) {
-			$('.left p')
-				.animate({
-					'opacity': 0
-				}, 100, function () {
-					if (box.hasClass('hovering')) {
-						$('.leftClone', box)
-							.animate({
-								'width': '50%',
-								'height': '100%',
-								'marginLeft': '-25%',
-								'marginTop': '-50%'
-							}, 200, 'easeOutBack');
-					} else {
-						$('.leftClone', box)
-							.animate({
-								'width': '0%', 
-								'height': '0%',
-								'marginLeft': '0%',
-								'marginTop': '0%'
-							}, 200, 'easeInBack');
-					}
-				});
-				
-				$('.right img')
-					.animate({
-						'opacity': 0
-					}, 100, function () {
-						if (box.hasClass('hovering')) {
-							$('.rightClone', box)
-								.animate({
-									'width': '50%',
-									'height': '100%',
-									'marginRight': '-25%',
-									'marginTop': '-50%'
-								}, 100, 'easeOutBack');
-						} else {
-							$('.rightClone', box)
-								.animate({
-									'width': '0%', 
-									'height': '0%',
-									'marginRight': '0%',
-									'marginTop': '0%'
-								}, 100, 'easeInBack');
-						}
-					});
-		}
-		
-		function bloom(event) {
-			
-			switch (event) {
-			case 'mouseenter':
-				box
-					.addClass('hovering');
-				console.log(event);
-				break;
-			case 'mouseleave':
-				box
-					.removeClass('hovering');
-				// bloomOut(event);
-				console.log(event);
-				break;
-				
-				default:
-					console.log('default');
-					break;
-					
-			}
-			
-			if (box.hasClass('hovering')) {
-				bloomIn(event);
-			} else {
-				bloomOut(event);
-			}
-			
-		}
-		
 	box
-		.bind( 'mouseenter mouseleave',
+		.bind( 'mouseenter mouseleave click',
 			function (e) {
 				bloom(e.type);	
 			}
